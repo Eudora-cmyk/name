@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+    <title>免费宝宝取名神器 - 按性别风格智能推荐好名字</title>
+    <meta name="description" content="免费在线宝宝取名工具，按性别、风格筛选好名字，包含寓意解释。适合准爸妈给新生儿起名。">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            background: #fef7e8;
+            padding: 20px;
+            color: #2d2a24;
+        }
+        .container {
+            max-width: 550px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 36px;
+            padding: 24px 20px 32px;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.05);
+        }
+        h1 {
+            font-size: 28px;
+            font-weight: 700;
+            color: #d4a373;             
+            margin-bottom: 6px;
+        }
+        .sub {
+            color: #9c7b5c;
+            font-size: 14px;
+            margin-bottom: 24px;
+            border-left: 3px solid #f4a261;
+            padding-left: 12px;
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 8px;
+            font-size: 15px;
+            color: #5e4b3c;
+        }
+        input, select {
+            width: 100%;
+            padding: 14px;
+            font-size: 16px;
+            border: 1px solid #f0d5b0;
+            border-radius: 24px;
+            background: #fffcf8;
+            font-family: inherit;
+        }
+        input:focus, select:focus {
+            outline: none;
+            border-color: #f4a261;
+        }
+        .tag-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 8px;
+        }
+        .tag {
+            background: #fdf0e0;
+            padding: 8px 18px;
+            border-radius: 40px;
+            font-size: 14px;
+            cursor: pointer;
+            transition: 0.2s;
+            border: 1px solid #f0d5b0;
+        }
+        .tag.active {
+            background: #d4a373;
+            color: white;
+            border-color: #d4a373;
+        }
+        button {
+            width: 100%;
+            background: #d4a373;
+            color: white;
+            border: none;
+            padding: 16px;
+            font-size: 18px;
+            font-weight: 600;
+            border-radius: 40px;
+            margin: 16px 0;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+        button:active {
+            background: #b5835a;
+            transform: scale(0.97);
+        }
+        .result-section {
+            margin-top: 20px;
+        }
+        .name-card {
+            background: #fffcf8;
+            border-radius: 24px;
+            padding: 16px;
+            margin-bottom: 12px;
+            border: 1px solid #f0d5b0;
+            transition: 0.2s;
+        }
+        .name {
+            font-size: 24px;
+            font-weight: 700;
+            color: #5e4b3c;
+        }
+        .meaning {
+            font-size: 14px;
+            color: #9c7b5c;
+            margin-top: 8px;
+            line-height: 1.4;
+        }
+        .empty-tip {
+            text-align: center;
+            padding: 40px 20px;
+            color: #c4a27a;
+        }
+        .ad-spot {
+            background: #fdf0e0;
+            border-radius: 20px;
+            padding: 12px;
+            text-align: center;
+            font-size: 12px;
+            color: #c4a27a;
+            margin: 20px 0 12px;
+            border: 1px dashed #f0d5b0;
+        }
+        .footer-note {
+            text-align: center;
+            font-size: 12px;
+            color: #c4a27a;
+            margin-top: 16px;
+        }
+        .share-tip {
+            background: #fff3e6;
+            border-radius: 20px;
+            padding: 12px;
+            text-align: center;
+            font-size: 13px;
+            color: #b5835a;
+            margin-top: 16px;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1>🌸 宝宝取名助手</h1>
+    <div class="sub">按性别·风格 推荐好听的名字</div>
+
+    <div class="form-group">
+        <label>👶 宝宝姓氏（选填）</label>
+        <input type="text" id="surname" placeholder="例如：王、李、张" maxlength="2">
+    </div>
+
+    <div class="form-group">
+        <label>⚧ 性别</label>
+        <div class="tag-group" id="genderGroup">
+            <span class="tag" data-gender="boy">男宝宝</span>
+            <span class="tag active" data-gender="girl">女宝宝</span>
+            <span class="tag" data-gender="neutral">中性风</span>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label>🎨 风格偏好</label>
+        <div class="tag-group" id="styleGroup">
+            <span class="tag" data-style="elegant">文雅</span>
+            <span class="tag active" data-style="atmosphere">大气</span>
+            <span class="tag" data-style="ancient">古风</span>
+            <span class="tag" data-style="natural">自然景物</span>
+        </div>
+    </div>
+
+    <button id="searchBtn">✨ 推荐好名字 ✨</button>
+
+    <!-- 广告预留位：后期替换为百度联盟代码 -->
+    <div class="ad-spot" id="adPlaceholder">
+        📢 广告位预留 · 宝宝起名相关推荐
+    </div>
+
+    <div class="result-section" id="resultArea">
+        <div class="empty-tip">✨ 点击上方按钮，为您推荐好名字 ✨</div>
+    </div>
+
+    <div class="share-tip" onclick="shareTool()">
+        📤 分享给准爸妈朋友 · 一起为宝宝取个好名字
+    </div>
+    <div class="footer-note">
+        本工具仅供参考，最终名字由家长决定 💕
+    </div>
+</div>
+
+<script>
+    // ==================== 名字库（你可以替换成自己的数据）====================
+    const namesDatabase = [
+        { name: "沐晴", gender: "girl", style: "natural", meaning: "如沐春风，晴空万里，寓意开朗明媚" },
+        { name: "书瑶", gender: "girl", style: "elegant", meaning: "书香门第，瑶池仙姿，寓意知书达理" },
+        { name: "予安", gender: "girl", style: "atmosphere", meaning: "予人安心，岁月静好，寓意平安喜乐" },
+        { name: "星河", gender: "neutral", style: "natural", meaning: "星河璀璨，胸怀广阔，寓意前程似锦" },
+        { name: "知行", gender: "neutral", style: "ancient", meaning: "知行合一，聪慧睿智，寓意学识与行动并重" },
+        { name: "云舒", gender: "girl", style: "natural", meaning: "云卷云舒，从容自在，寓意心态豁达" },
+        { name: "瑾瑜", gender: "neutral", style: "elegant", meaning: "怀瑾握瑜，品德高尚，寓意美玉般纯净" },
+        { name: "景行", gender: "boy", style: "ancient", meaning: "高山仰止，景行行止，寓意德行高尚" },
+        { name: "泽言", gender: "boy", style: "atmosphere", meaning: "温润而泽，言而有信，寓意仁善真诚" },
+        { name: "知意", gender: "girl", style: "elegant", meaning: "知书达意，善解人意，寓意聪慧体贴" },
+        { name: "南风", gender: "neutral", style: "natural", meaning: "南风知我意，吹梦到西洲，寓意温柔有诗意" },
+        { name: "千尘", gender: "boy", style: "ancient", meaning: "一骑绝尘，超越凡俗，寓意出众不凡" },
+        { name: "初瑶", gender: "girl", style: "elegant", meaning: "初心不改，瑶台仙露，寓意纯净美好" },
+        { name: "砚秋", gender: "neutral", style: "ancient", meaning: "笔砚春秋，文采斐然，寓意文艺气质" },
+        { name: "翊宸", gender: "boy", style: "atmosphere", meaning: "辅翊星辰，宸极之光，寓意尊贵有担当" },
+        { name: "安宁", gender: "girl", style: "atmosphere", meaning: "平安顺遂，宁静致远，寓意一生安宁" },
+        { name: "栖迟", gender: "neutral", style: "ancient", meaning: "衡门之下，可以栖迟，寓意闲适恬淡" },
+        { name: "以安", gender: "girl", style: "atmosphere", meaning: "以梦为马，一世长安，寓意平安幸福" },
+        { name: "听澜", gender: "boy", style: "natural", meaning: "听海观澜，胸怀广阔，寓意志向远大" },
+        { name: "清野", gender: "boy", style: "natural", meaning: "清新旷野，自由洒脱，寓意无拘无束" }
+    ];
+
+    let currentGender = "girl";
+    let currentStyle = "atmosphere";
+
+    // 性别选择
+    document.querySelectorAll('#genderGroup .tag').forEach(tag => {
+        tag.addEventListener('click', function() {
+            document.querySelectorAll('#genderGroup .tag').forEach(t => t.classList.remove('active'));
+            this.classList.add('active');
+            currentGender = this.getAttribute('data-gender');
+        });
+    });
+
+    // 风格选择
+    document.querySelectorAll('#styleGroup .tag').forEach(tag => {
+        tag.addEventListener('click', function() {
+            document.querySelectorAll('#styleGroup .tag').forEach(t => t.classList.remove('active'));
+            this.classList.add('active');
+            currentStyle = this.getAttribute('data-style');
+        });
+    });
+
+    function searchNames() {
+        const surname = document.getElementById('surname').value.trim();
+        
+        // 过滤名字
+        let filtered = namesDatabase.filter(item => {
+            return item.gender === currentGender && item.style === currentStyle;
+        });
+
+        // 显示结果
+        const resultArea = document.getElementById('resultArea');
+        if (filtered.length === 0) {
+            resultArea.innerHTML = '<div class="empty-tip">😢 暂无该组合的名字，试试切换风格或性别吧～</div>';
+            return;
+        }
+
+        let html = '';
+        filtered.forEach(item => {
+            const fullName = surname ? surname + item.name : item.name;
+            html += `
+                <div class="name-card">
+                    <div class="name">${fullName}</div>
+                    <div class="meaning">📖 寓意：${item.meaning}</div>
+                </div>
+            `;
+        });
+        resultArea.innerHTML = html;
+    }
+
+    function shareTool() {
+        if (navigator.share) {
+            navigator.share({
+                title: '宝宝取名助手',
+                text: '免费在线取名字，按风格推荐好名字',
+                url: window.location.href
+            }).catch(() => {});
+        } else {
+            alert('点击右上角菜单分享给好友 💕');
+        }
+    }
+
+    document.getElementById('searchBtn').addEventListener('click', searchNames);
+    // 页面加载自动推荐一次
+    window.addEventListener('DOMContentLoaded', searchNames);
+</script>
+</body>
+</html>
